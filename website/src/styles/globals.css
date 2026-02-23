@@ -1,0 +1,347 @@
+@import "tailwindcss";
+
+/* Design System - Simplefysed Solutions */
+:root {
+  /* Near-black backgrounds */
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-tertiary: #1a1a24;
+
+  /* Neon accents */
+  --neon-cyan: #00fff2;
+  --neon-purple: #8000ff;
+  --neon-green: #39ff14;
+  --neon-pink: #ff0080;
+
+  /* Text colors */
+  --text-primary: #e0e0e8;
+  --text-secondary: #9090a0;
+  --text-muted: #606070;
+
+  /* Glow effects */
+  --glow-cyan: 0 0 20px rgba(0, 255, 242, 0.5), 0 0 40px rgba(0, 255, 242, 0.3);
+  --glow-purple: 0 0 20px rgba(128, 0, 255, 0.5), 0 0 40px rgba(128, 0, 255, 0.3);
+  --glow-green: 0 0 20px rgba(57, 255, 20, 0.5), 0 0 40px rgba(57, 255, 20, 0.3);
+  --glow-pink: 0 0 20px rgba(255, 0, 128, 0.5), 0 0 40px rgba(255, 0, 128, 0.3);
+
+  /* Font families */
+  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), 'Consolas', monospace;
+}
+
+@theme inline {
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-neon-cyan: var(--neon-cyan);
+  --color-neon-purple: var(--neon-purple);
+  --color-neon-green: var(--neon-green);
+  --color-neon-pink: var(--neon-pink);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+::selection {
+  background: rgba(0, 255, 242, 0.3);
+  color: var(--text-primary);
+}
+
+:focus-visible {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: 2px;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.8;
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.glow-cyan {
+  box-shadow: var(--glow-cyan);
+}
+
+.glow-purple {
+  box-shadow: var(--glow-purple);
+}
+
+.glow-green {
+  box-shadow: var(--glow-green);
+}
+
+.text-glow-cyan {
+  text-shadow: 0 0 10px rgba(0, 255, 242, 0.7), 0 0 20px rgba(0, 255, 242, 0.5);
+}
+
+.text-glow-purple {
+  text-shadow: 0 0 10px rgba(128, 0, 255, 0.7), 0 0 20px rgba(128, 0, 255, 0.5);
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.accent-text {
+  color: var(--neon-cyan);
+}
+
+.accent-border {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  border: 1px solid var(--neon-cyan);
+}
+
+/* Terminal - Enhanced CRT Style */
+.terminal-window {
+  background: #050508;
+  border: 1px solid rgba(107, 114, 128, 0.5);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.terminal-window::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 242, 0.03) 2px,
+    rgba(0, 255, 242, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+.terminal-window::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  pointer-events: none;
+  z-index: 11;
+}
+
+.terminal-header {
+  background: linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(107, 114, 128, 0.5);
+  position: relative;
+  z-index: 12;
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.terminal-dot:hover {
+  transform: scale(1.2);
+}
+
+.terminal-dot-red {
+  background: #ff5f56;
+  box-shadow: 0 0 8px rgba(255, 95, 86, 0.5);
+}
+
+.terminal-dot-yellow {
+  background: #ffbd2e;
+  box-shadow: 0 0 8px rgba(255, 189, 46, 0.5);
+}
+
+.terminal-dot-green {
+  background: #27ca40;
+  box-shadow: 0 0 8px rgba(39, 202, 64, 0.5);
+}
+
+.terminal-content {
+  position: relative;
+  z-index: 5;
+}
+
+/* Blinking cursor */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 18px;
+  background: var(--neon-cyan);
+  animation: blink 1s step-end infinite;
+  box-shadow: 0 0 8px var(--neon-cyan);
+}
+
+
+/* Screen flicker effect (subtle) */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.95; }
+  94% { opacity: 1; }
+  97% { opacity: 0.98; }
+  98% { opacity: 1; }
+}
+
+.terminal-content {
+  animation: flicker 8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+.canvas-container {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-secondary) 0%,
+    var(--bg-tertiary) 50%,
+    var(--bg-secondary) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Tech Logo Slider Animation */
+@keyframes scroll-slow {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-slow {
+  animation: scroll-slow 90s linear infinite;
+  will-change: transform;
+}
+
+.animate-scroll-slow:hover,
+.group\/slider:hover .animate-scroll-slow,
+.pause-animation {
+  animation-play-state: paused;
+}
+
+/* Atom panel - glass card styling */
+.atom-panel {
+  background: rgba(10, 10, 15, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 255, 242, 0.1);
+  border-radius: 24px;
+  padding: 1.25rem 2.5rem 2rem;
+}
+
+@media (min-width: 640px) {
+  .atom-panel {
+    padding: 1.5rem 3rem 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .atom-panel {
+    padding: 1.75rem 3.5rem 3rem;
+  }
+}
+
+@keyframes digital-glitch {
+  0%, 100% { transform: translate(0); }
+  20%      { transform: translate(-1px, 1px); }
+  40%      { transform: translate(1px, -1px); }
+  60%      { transform: translate(-1px, -1px); }
+  80%      { transform: translate(1px, 1px); }
+}
