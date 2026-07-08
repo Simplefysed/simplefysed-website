@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter, JetBrains_Mono, Playfair_Display } from 'next/font/google'
 import '@/styles/globals.css'
 import { siteConfig } from '@/lib/siteConfig'
-import { Header, Footer, HashScroll } from '@/components/layout'
+import { Header, Footer, HashScroll, MotionProvider } from '@/components/layout'
 import { ContactModal } from '@/components/contact'
 import { Analytics } from '@vercel/analytics/next'
 
@@ -124,10 +124,12 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
         <HashScroll />
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <ContactModal />
+        <MotionProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+          <ContactModal />
+        </MotionProvider>
         <Analytics />
       </body>
     </html>
