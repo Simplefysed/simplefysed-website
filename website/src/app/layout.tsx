@@ -4,6 +4,7 @@ import '@/styles/globals.css'
 import { siteConfig } from '@/lib/siteConfig'
 import { Header, Footer, HashScroll } from '@/components/layout'
 import { ContactModal } from '@/components/contact'
+import { Analytics } from '@vercel/analytics/next'
 
 const inter = Inter({
   variable: '--font-inter',
@@ -127,6 +128,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <ContactModal />
+        <Analytics />
       </body>
     </html>
   )
