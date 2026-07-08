@@ -89,87 +89,106 @@ export function StudioSection() {
     <section data-surface="paper" className="border-b border-ink bg-paper">
       <h2 className="sr-only">The Simplefysed nameplate</h2>
 
-      {/* Stage + caption bar fill one full viewport (the hero rule: dvh,
-          content slides under the translucent fixed header). Sizing minus
-          the header instead leaves a header-height band of the ink footer
-          at the fold, because natural scrolling aligns the section top to
-          the viewport top, never to the header's bottom edge. The caption
-          row takes its natural height and the stage flexes to the rest;
-          the caption is sticky so it stays pinned to the fold while the
-          section's end is still below the viewport (e.g. with the section
-          top parked at the header's bottom edge) and settles into its
-          natural place exactly when the fold is clean. */}
-      <div className="flex h-dvh min-h-[520px] flex-col">
-        <div className="relative min-h-0 flex-1">
-          {/* The stage; rendering pauses once the word settles, and replay
-              happens only via the caption button below. */}
-          <div ref={stageRef} aria-hidden="true" className="h-full w-full">
-            <StageBoundary>
-              <StudioCanvas
-                playing={inView}
-                instant={reducedMotion}
-                settled={settled}
-                runId={runId}
-                withButtons={boxButtons}
-                onSettled={handleSettled}
-                onStartProject={openModal}
-              />
-            </StageBoundary>
+      {/* Desktop (>=1024px) only: the full-height 3D stage + sticky caption.
+          The heavy StudioCanvas chunk is dynamic-imported, so gating its
+          render on boxButtons keeps three.js off phones and tablets entirely
+          (they get the static band below). Keeping the tall container present
+          before hydration (!mounted) preserves the desktop layout exactly:
+          the stage was always h-dvh from first paint and the canvas simply
+          fades in after hydration, as it does today.
+
+          Stage + caption bar fill one full viewport (the hero rule: dvh,
+          content slides under the translucent fixed header). The caption row
+          takes its natural height and the stage flexes to the rest; the
+          caption is sticky so it stays pinned to the fold while the section's
+          end is still below the viewport and settles into its natural place
+          exactly when the fold is clean. */}
+      {(!mounted || boxButtons) && (
+        <div className="flex h-dvh min-h-[520px] flex-col">
+          <div className="relative min-h-0 flex-1">
+            {/* The stage; rendering pauses once the word settles, and replay
+                happens only via the caption button below. */}
+            <div ref={stageRef} aria-hidden="true" className="h-full w-full">
+              <StageBoundary>
+                {boxButtons && (
+                  <StudioCanvas
+                    playing={inView}
+                    instant={reducedMotion}
+                    settled={settled}
+                    runId={runId}
+                    withButtons={boxButtons}
+                    onSettled={handleSettled}
+                    onStartProject={openModal}
+                  />
+                )}
+              </StageBoundary>
+            </div>
           </div>
 
-          {/* Below lg the two actions are ordinary buttons over the stage */}
-          {mounted && !boxButtons && (
-            <div className="pointer-events-none absolute inset-x-0 bottom-10 flex flex-col items-center gap-5 px-6 sm:flex-row sm:justify-center sm:gap-8">
-              <Button
-                variant="rust"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  openModal()
-                }}
-                className="pointer-events-auto rounded-none px-[26px] py-[13px] text-[14px] font-semibold"
+          {/* Plate caption */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="sticky bottom-0 flex shrink-0 flex-col gap-2 border-t border-ink/10 bg-paper px-8 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:px-12 lg:pl-32 lg:pr-24 xl:pl-40"
+          >
+            <p className="font-serif text-lg italic leading-snug text-ink">
+              Everything lands where it should.
+            </p>
+            {reducedMotion ? (
+              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted">
+                The nameplate, at rest
+              </span>
+            ) : (
+              <button
+                type="button"
+                onClick={replay}
+                className="-mx-2 -my-2 self-start px-2 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted transition-colors hover:text-ink sm:self-auto"
               >
-                Start Your Project
-              </Button>
-              <a
-                href={CALENDLY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className="pointer-events-auto group inline-flex items-center gap-2 border-b-[1.6px] border-ink px-0.5 py-1 text-[14px] font-semibold text-ink transition-colors hover:border-rust hover:text-rust"
-              >
-                Schedule a Discovery Call
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </a>
-            </div>
-          )}
+                Drop it again
+              </button>
+            )}
+          </motion.div>
         </div>
+      )}
 
-        {/* Plate caption */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="sticky bottom-0 flex shrink-0 flex-col gap-2 border-t border-ink/10 bg-paper px-8 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:px-12 lg:pl-32 lg:pr-24 xl:pl-40"
-        >
-          <p className="font-serif text-lg italic leading-snug text-ink">
+      {/* Mobile (<1024px): a compact static closing CTA band. No WebGL and no
+          empty stage; the same two actions the desktop dome offers, plus the
+          caption line, laid out as an ordinary Paper & Ink closing register. */}
+      {mounted && !boxButtons && (
+        <div className="px-8 py-20 sm:px-12 sm:py-24">
+          <div className="flex items-center gap-4">
+            <span className="h-px w-10 bg-ink/25" />
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-muted">
+              The Next Step
+            </span>
+          </div>
+
+          <p className="mt-6 max-w-xl font-serif text-[2rem] font-medium leading-[1.08] tracking-[-0.02em] text-ink sm:text-4xl">
             Everything lands where it should.
           </p>
-          {reducedMotion ? (
-            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted">
-              The nameplate, at rest
-            </span>
-          ) : (
-            <button
-              type="button"
-              onClick={replay}
-              className="-mx-2 -my-2 self-start px-2 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted transition-colors hover:text-ink sm:self-auto"
+
+          <div className="mt-9 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-8">
+            <Button
+              variant="rust"
+              onClick={() => openModal()}
+              className="rounded-none px-[30px] py-4 text-[15px] font-semibold"
             >
-              Drop it again
-            </button>
-          )}
-        </motion.div>
-      </div>
+              Start Your Project
+            </Button>
+            <a
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 border-b-[1.6px] border-ink px-0.5 py-1 text-[15px] font-semibold text-ink transition-colors hover:border-rust hover:text-rust"
+            >
+              Schedule a Discovery Call
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </a>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

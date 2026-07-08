@@ -163,7 +163,7 @@ export function Footer() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="whitespace-nowrap font-serif text-[clamp(2.75rem,11vw,9rem)] font-medium leading-none tracking-[-0.02em] text-paper"
+        className="whitespace-nowrap font-serif text-[clamp(2rem,11vw,9rem)] font-medium leading-none tracking-[-0.02em] text-paper"
       >
         Simplefysed<span className="text-rust">.</span>
       </motion.p>

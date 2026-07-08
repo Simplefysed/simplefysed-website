@@ -40,7 +40,7 @@ export function AboutCompany() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-8 font-serif text-6xl font-medium leading-[0.95] tracking-[-0.02em] text-ink sm:text-7xl lg:text-8xl"
+          className="mt-8 font-serif text-5xl font-medium leading-[0.95] tracking-[-0.02em] text-ink break-words sm:text-7xl lg:text-8xl"
         >
           We build <span className="text-rust">less.</span>
         </motion.h1>

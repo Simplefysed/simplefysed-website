@@ -6,8 +6,8 @@ import { HeroContent } from './HeroContent'
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-paper border-b border-ink">
-      <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] min-h-screen">
+    <section className="relative min-h-dvh overflow-hidden bg-paper border-b border-ink">
+      <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] min-h-dvh">
         {/* LEFT: paper content */}
         <HeroContent />
 

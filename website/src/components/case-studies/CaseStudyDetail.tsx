@@ -46,7 +46,7 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-8 max-w-5xl font-serif text-6xl font-medium leading-[1.0] tracking-[-0.02em] text-ink sm:text-7xl lg:text-8xl"
+            className="mt-8 max-w-5xl font-serif text-[2.5rem] font-medium leading-[1.0] tracking-[-0.02em] text-ink break-words sm:text-7xl lg:text-8xl"
           >
             {study.title}
           </motion.h1>

@@ -33,7 +33,7 @@ export function Header() {
               priority
               className="h-[26px] w-auto select-none"
             />
-            <span className="whitespace-nowrap font-semibold text-xl tracking-tight text-ink">
+            <span className="whitespace-nowrap font-semibold text-lg sm:text-xl tracking-tight text-ink">
               Simplefysed <span className="text-rust">Solutions</span>
             </span>
           </Link>

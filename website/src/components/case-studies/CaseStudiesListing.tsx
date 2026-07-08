@@ -31,7 +31,7 @@ export function CaseStudiesListing() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-1 flex-col items-center justify-center text-center"
         >
-          <h1 className="max-w-4xl font-serif text-6xl font-medium leading-[0.98] tracking-[-0.02em] text-ink sm:text-7xl lg:text-8xl">
+          <h1 className="max-w-4xl font-serif text-5xl font-medium leading-[0.98] tracking-[-0.02em] text-ink break-words sm:text-7xl lg:text-8xl">
             Real projects.
             <br />
             <span className="italic text-ink-muted">Real</span>{' '}

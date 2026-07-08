@@ -14,7 +14,7 @@ const stats = [
 export function HeroContent() {
   const openModal = useContactStore((s) => s.openModal)
   return (
-    <div className="relative z-10 flex flex-col justify-center min-h-screen px-8 sm:px-12 lg:pl-32 xl:pl-40 lg:pr-24 py-28">
+    <div className="relative z-10 flex flex-col justify-center min-h-dvh px-8 sm:px-12 lg:pl-32 xl:pl-40 lg:pr-24 py-28">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -22,7 +22,7 @@ export function HeroContent() {
         className="max-w-xl"
       >
         {/* serif headline */}
-        <h1 className="font-serif text-ink font-medium leading-[1.02] tracking-[-0.02em] text-5xl sm:text-6xl lg:text-[4.2rem] mb-7">
+        <h1 className="font-serif text-ink font-medium leading-[1.02] tracking-[-0.02em] text-5xl sm:text-6xl lg:text-[4.2rem] mb-7 break-words">
           Fewer tools.
           <br />
           <span className="italic text-ink-muted">Fewer people.</span>
@@ -63,10 +63,10 @@ export function HeroContent() {
         </motion.div>
 
         {/* stats */}
-        <div className="grid grid-cols-3 gap-6 mt-14 pt-8 border-t border-ink/10 max-w-lg">
+        <div className="grid grid-cols-3 gap-4 sm:gap-6 mt-14 pt-8 border-t border-ink/10 max-w-lg">
           {stats.map((s) => (
             <div key={s.label}>
-              <div className="font-mono text-2xl sm:text-3xl text-ink tracking-tight">{s.value}</div>
+              <div className="font-mono text-xl sm:text-3xl text-ink tracking-tight">{s.value}</div>
               <div className="font-mono text-[10px] tracking-[0.1em] uppercase text-ink-muted mt-1">
                 {s.label}
               </div>
