@@ -1,79 +1,16 @@
 'use client'
 
+import Link from 'next/link'
 import { motion, Variants } from 'framer-motion'
-import { Globe, Smartphone, TabletSmartphone, Building2, Code2, Palette, type LucideIcon } from 'lucide-react'
-import { Card, CardContent } from '@/components/ui/Card'
-import { GradientText } from '@/components/ui/GradientText'
-import { cn } from '@/lib/utils'
-
-type NeonColor = 'cyan' | 'purple' | 'green' | 'pink'
-
-const colorMap: Record<NeonColor, { bg: string; text: string; dot: string; border: string; gradient: string; hoverBorder: string; hoverGlow: string }> = {
-  cyan: { bg: 'bg-neon-cyan/10', text: 'text-neon-cyan', dot: 'bg-neon-cyan', border: 'border-neon-cyan/30', gradient: 'from-neon-cyan/[0.03]', hoverBorder: 'hover:border-neon-cyan/50', hoverGlow: 'hover:shadow-[0_0_20px_rgba(0,255,242,0.15)]' },
-  purple: { bg: 'bg-neon-purple/10', text: 'text-neon-purple', dot: 'bg-neon-purple', border: 'border-neon-purple/30', gradient: 'from-neon-purple/[0.03]', hoverBorder: 'hover:border-neon-purple/50', hoverGlow: 'hover:shadow-[0_0_20px_rgba(128,0,255,0.15)]' },
-  green: { bg: 'bg-neon-green/10', text: 'text-neon-green', dot: 'bg-neon-green', border: 'border-neon-green/30', gradient: 'from-neon-green/[0.03]', hoverBorder: 'hover:border-neon-green/50', hoverGlow: 'hover:shadow-[0_0_20px_rgba(57,255,20,0.15)]' },
-  pink: { bg: 'bg-neon-pink/10', text: 'text-neon-pink', dot: 'bg-neon-pink', border: 'border-neon-pink/30', gradient: 'from-neon-pink/[0.03]', hoverBorder: 'hover:border-neon-pink/50', hoverGlow: 'hover:shadow-[0_0_20px_rgba(255,0,128,0.15)]' },
-}
-
-interface ServiceCard {
-  title: string
-  icon: LucideIcon
-  color: NeonColor
-  description: string
-  capabilities: string[]
-}
-
-const services: ServiceCard[] = [
-  {
-    title: 'Web Development',
-    icon: Globe,
-    color: 'cyan',
-    description: 'AI-accelerated web applications with automated testing pipelines, intelligent optimization, and self-tuning performance. Let AI handle the repetitive work, from data entry and report generation to scheduled tasks and content management, so your team can focus on what actually moves the needle.',
-    capabilities: ['Cutting Edge Design', 'Automated Testing Suites', 'Intelligent Performance Tuning', 'Smart API Architecture'],
-  },
-  {
-    title: 'iOS Development',
-    icon: Smartphone,
-    color: 'green',
-    description: 'Polished, high-performance iOS apps that feel native from the first tap. Fast iteration, intuitive interfaces, and experiences your users will love.',
-    capabilities: ['Pixel-Perfect Native UI', 'Seamless User Experiences', 'Predictive UX Patterns', 'Intelligent App Analytics'],
-  },
-  {
-    title: 'Android Development',
-    icon: TabletSmartphone,
-    color: 'green',
-    description: 'Beautiful, responsive Android apps that run flawlessly across every device. Built for scale, designed for engagement, and ready for the Play Store.',
-    capabilities: ['Material Design Excellence', 'Cross-Device Compatibility', 'Buttery Smooth Performance', 'Play Store Optimization'],
-  },
-  {
-    title: 'Enterprise Software',
-    icon: Building2,
-    color: 'pink',
-    description: 'AI-automated business processes with intelligent workflow orchestration, predictive analytics, and self-healing system architecture.',
-    capabilities: ['AI Workflow Orchestration', 'Predictive Business Analytics', 'Automated Process Mining', 'Self-Healing Architecture'],
-  },
-  {
-    title: 'Custom Software',
-    icon: Code2,
-    color: 'pink',
-    description: 'Purpose-built software shaped around your business. From complex workflows to niche requirements, we deliver solutions that fit like a glove.',
-    capabilities: ['Tailored to Your Workflow', 'Scalable Architecture', 'Seamless Integrations', 'Future-Proof Design'],
-  },
-  {
-    title: 'Web Design',
-    icon: Palette,
-    color: 'cyan',
-    description: 'Striking, conversion-driven designs that turn visitors into customers. Accessible, responsive, and crafted to make your brand unforgettable. Every pixel is intentional, from typography and color to layout and motion, so your product stands out in a crowded market.',
-    capabilities: ['Brand-Driven Design Systems', 'Full Accessibility Compliance', 'Conversion Rate Optimization', 'Rapid Prototyping & Iteration'],
-  },
-]
+import { ArrowRight } from 'lucide-react'
+import { solutions, type Solution } from '@/data/solutions'
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.12,
+      staggerChildren: 0.14,
       delayChildren: 0.1,
     },
   },
@@ -91,98 +28,141 @@ const itemVariants: Variants = {
   },
 }
 
-function ServiceCardComponent({ service }: { service: ServiceCard }) {
-  const colors = colorMap[service.color]
-  const Icon = service.icon
-
+function ProductRow({ product }: { product: Solution }) {
   return (
-    <Card variant="glow" hover={false} className={cn('group relative h-full transition-all duration-300', colors.border, colors.hoverBorder, colors.hoverGlow)}>
-
-      <CardContent className="relative p-6">
-        {/* Icon + AI Badge row */}
-        <div className="flex items-start justify-between mb-4">
-          <div className={cn('w-12 h-12 rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-110', colors.bg)}>
-            <Icon className={cn('w-7 h-7', colors.text)} />
-          </div>
-
-        </div>
-
-        {/* Title */}
-        <h3 className="text-xl font-bold text-text-primary font-display mb-2">
-          {service.title}
+    <motion.article
+      variants={itemVariants}
+      className="grid gap-y-7 gap-x-10 py-12 lg:grid-cols-12 lg:py-14"
+    >
+      {/* Index + title */}
+      <div className="flex items-start gap-5 lg:col-span-4">
+        <span className="pt-1.5 font-mono text-sm text-ink-muted">
+          {product.index}
+        </span>
+        <h3 className="font-serif text-3xl font-medium leading-[1.08] tracking-[-0.01em] text-ink lg:text-4xl">
+          {product.title}
         </h3>
+      </div>
 
-        {/* Description */}
-        <p className="text-text-secondary text-sm leading-relaxed mb-4">
-          {service.description}
+      {/* Deck + description */}
+      <div className="max-w-lg lg:col-span-5">
+        <p className="mb-3 font-serif text-lg italic leading-snug text-ink">
+          {product.deck}
         </p>
+        <p className="text-[15px] leading-relaxed text-ink-muted">
+          {product.description}
+        </p>
+        <Link
+          href={`/solutions#${product.slug}`}
+          className="group mt-6 inline-flex items-center gap-2 rounded-none bg-rust px-6 py-3 text-[14px] font-semibold text-paper transition-colors duration-300 hover:bg-rust/90"
+        >
+          Explore the Solution
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        </Link>
+      </div>
 
-        {/* Capabilities */}
-        <ul className="space-y-2">
-          {service.capabilities.map((cap) => (
-            <li key={cap} className="flex items-center gap-2 text-sm text-text-muted">
-              <span className={cn('w-1.5 h-1.5 rounded-full flex-shrink-0', colors.dot)} />
-              {cap}
+      {/* What ships + best for */}
+      <div className="lg:col-span-3">
+        <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-muted">
+          What ships
+        </div>
+        <ul className="border-t border-ink/10 divide-y divide-ink/10">
+          {product.ships.map((item) => (
+            <li key={item} className="py-2.5 text-sm leading-snug text-ink">
+              {item}
             </li>
           ))}
         </ul>
-      </CardContent>
-    </Card>
+        <div className="mt-7 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-muted">
+          Best for
+        </div>
+        <p className="mt-1 text-sm leading-snug text-ink-muted">
+          {product.bestFor}
+        </p>
+      </div>
+    </motion.article>
   )
 }
 
 export function ServicesSection() {
   return (
-    <section id="services" className="py-32 px-6 sm:px-8 lg:px-12 bg-bg-secondary relative overflow-hidden">
-
-      <div className="max-w-7xl mx-auto relative z-10">
+    <section
+      id="services"
+      data-surface="paper"
+      className="scroll-mt-16 bg-paper px-8 pt-24 pb-20 sm:px-12 lg:pl-32 lg:pr-24 lg:pt-28 xl:pl-40"
+    >
+      <div>
         {/* Section header */}
-        <div className="text-center mb-16">
-          <motion.h2
+        <div className="mb-14 lg:mb-16">
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6"
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="mb-6 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted"
           >
-            State of the Art{' '}
-            <GradientText>AI-Driven</GradientText> Software
+            Productized Solutions
+          </motion.p>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="mb-7 font-serif text-4xl font-medium leading-[1.04] tracking-[-0.02em] text-ink sm:text-5xl lg:text-[3.6rem]"
+          >
+            We consult.
+            <br />
+            <span className="italic text-ink-muted">We architect.</span>
+            <br />
+            We <span className="text-rust">build.</span>
           </motion.h2>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-text-secondary max-w-3xl mx-auto text-lg"
+            transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-xl text-lg leading-relaxed text-ink-muted"
           >
-            Every solution we build leverages artificial intelligence to automate manual processes,
-            accelerate delivery, and create software that thinks for you.
+            No sprawling catalog. No hourly guesswork. Three products carry
+            every engagement from first workshop to running software, with
+            state-of-the-art AI in every layer.
           </motion.p>
         </div>
 
-        {/* Bento grid */}
+        {/* Product index */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+          viewport={{ once: true, amount: 0.08 }}
+          className="border-y border-ink/10 divide-y divide-ink/10"
         >
-          {services.map((service, i) => {
-            // Span-2 for first card (top-left) and last card (bottom-right)
-            const isWide = i === 0 || i === 5
-            return (
-              <motion.div
-                key={service.title}
-                variants={itemVariants}
-                className={cn(isWide && 'lg:col-span-2')}
-              >
-                <ServiceCardComponent service={service} />
-              </motion.div>
-            )
-          })}
+          {solutions.map((product) => (
+            <ProductRow key={product.slug} product={product} />
+          ))}
         </motion.div>
+
+        {/* Tertiary CTA */}
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-12 text-[15px] text-ink-muted"
+        >
+          Not sure which product fits?{' '}
+          <a
+            href="https://calendly.com/vin-simplefysed/30min"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-1.5 border-b-[1.6px] border-ink font-semibold text-ink transition-colors hover:border-rust hover:text-rust"
+          >
+            Schedule a call
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </a>
+        </motion.p>
       </div>
     </section>
   )

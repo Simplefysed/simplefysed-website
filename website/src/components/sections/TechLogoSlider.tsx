@@ -1,7 +1,5 @@
 'use client'
 
-import { GradientText } from '@/components/ui'
-
 // Technology data with brand colors and descriptions
 const technologies = [
   // Frontend (first 3)
@@ -82,25 +80,26 @@ const technologies = [
 
 export function TechLogoSlider() {
   return (
-    <section className="py-16 bg-bg-primary overflow-hidden">
+    <section data-surface="paper" className="bg-paper pt-4 pb-10 border-b border-ink overflow-hidden">
       {/* Header */}
-      <div className="text-center mb-10 px-6">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-          Technologies We <GradientText>Master</GradientText>
-        </h2>
-        <p className="text-text-secondary max-w-2xl mx-auto text-lg">
-          Building with industry-leading tools and frameworks
+      <div className="mb-8 px-8 sm:px-12 lg:pl-32 xl:pl-40">
+        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">
+          The Stack
+        </p>
+        <p className="max-w-lg text-[15px] leading-relaxed text-ink-muted">
+          The technologies behind every product we ship. The logos rotate; the
+          standard doesn&apos;t.
         </p>
       </div>
 
       {/* Slider Container */}
       <div className="relative group/slider overflow-x-clip overflow-y-visible">
         {/* Fade overlays - solid at edge, then gradient */}
-        <div className="absolute left-0 top-0 bottom-0 w-52 z-30 pointer-events-none" style={{ background: 'linear-gradient(to right, var(--bg-primary) 0%, var(--bg-primary) 60%, transparent 100%)' }} />
-        <div className="absolute right-0 top-0 bottom-0 w-52 z-30 pointer-events-none" style={{ background: 'linear-gradient(to left, var(--bg-primary) 0%, var(--bg-primary) 60%, transparent 100%)' }} />
+        <div className="absolute left-0 top-0 bottom-0 w-24 sm:w-44 z-30 pointer-events-none" style={{ background: 'linear-gradient(to right, var(--paper) 0%, rgba(243, 240, 233, 0) 100%)' }} />
+        <div className="absolute right-0 top-0 bottom-0 w-24 sm:w-44 z-30 pointer-events-none" style={{ background: 'linear-gradient(to left, var(--paper) 0%, rgba(243, 240, 233, 0) 100%)' }} />
 
         {/* Scrolling track */}
-        <div className="flex w-max gap-16 animate-scroll-slow group-hover/slider:pause-animation pb-16 px-20">
+        <div className="flex w-max gap-14 animate-scroll-slow group-hover/slider:pause-animation pb-20 px-20">
           {/* First set of logos */}
           {technologies.map((tech) => (
             <TechLogo key={`first-${tech.name}`} tech={tech} />
@@ -130,60 +129,25 @@ interface TechLogoProps {
 }
 
 function TechLogo({ tech }: TechLogoProps) {
-  // Convert hex color to RGB for glow effect
-  const hexToRgb = (hex: string) => {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-    return result
-      ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
-      : '255, 255, 255'
-  }
-
-  const rgbColor = hexToRgb(tech.color)
-
   return (
     <div className="flex-shrink-0 group/item relative">
-      {/* Logo container */}
-      <div
-        className="w-28 h-28 flex items-center justify-center rounded-2xl bg-bg-secondary/30 border border-bg-tertiary/50 transition-all duration-300 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 cursor-pointer"
-        style={{
-          '--tech-glow': `rgba(${rgbColor}, 0.4)`,
-        } as React.CSSProperties}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = `rgba(${rgbColor}, 0.5)`
-          e.currentTarget.style.boxShadow = `0 0 30px rgba(${rgbColor}, 0.5)`
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = ''
-          e.currentTarget.style.boxShadow = ''
-        }}
-      >
-        <tech.Icon
-          className="w-14 h-14 transition-all duration-300"
-          style={{ color: tech.color }}
-        />
+      {/* Logo + name - ink on paper, lift to full ink together on hover */}
+      <div className="flex flex-col items-center gap-2.5 text-ink/40 transition-colors duration-300 hover:text-ink cursor-default">
+        <div className="w-20 h-14 flex items-center justify-center">
+          <tech.Icon className="w-10 h-10" />
+        </div>
+        <span className="font-mono text-[10px] uppercase tracking-[0.1em] whitespace-nowrap">
+          {tech.name}
+        </span>
       </div>
 
-      {/* Tooltip with name and description - shown on hover */}
-      <div className="absolute left-1/2 -translate-x-1/2 top-full mt-3 opacity-0 invisible group-hover/item:opacity-100 group-hover/item:visible transition-all duration-300 z-20 pointer-events-none">
-        <div
-          className="bg-bg-secondary/95 backdrop-blur-sm border rounded-lg px-4 py-3 min-w-48 max-w-56 shadow-xl"
-          style={{ borderColor: `rgba(${rgbColor}, 0.3)` }}
-        >
-          <p
-            className="font-semibold text-sm mb-1"
-            style={{ color: tech.color }}
-          >
-            {tech.name}
-          </p>
-          <p className="text-text-secondary text-xs leading-relaxed">
+      {/* Tooltip with description - shown on hover */}
+      <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 opacity-0 invisible group-hover/item:opacity-100 group-hover/item:visible transition-all duration-300 z-20 pointer-events-none">
+        <div className="bg-paper-card border border-ink/15 px-4 py-3 min-w-48 max-w-56 shadow-sm">
+          <p className="text-ink-muted text-xs leading-relaxed">
             {tech.description}
           </p>
         </div>
-        {/* Arrow */}
-        <div
-          className="absolute left-1/2 -translate-x-1/2 -top-2 w-0 h-0 border-l-8 border-r-8 border-b-8 border-transparent"
-          style={{ borderBottomColor: `rgba(${rgbColor}, 0.3)` }}
-        />
       </div>
     </div>
   )

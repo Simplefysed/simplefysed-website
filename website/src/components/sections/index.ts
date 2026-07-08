@@ -1,5 +1,2 @@
-export { ServicesShowcase } from './ServicesShowcase'
 export { ServicesSection } from './ServicesSection'
 export { TechLogoSlider } from './TechLogoSlider'
-export { CaseStudyPreview } from './CaseStudyPreview'
-export { CTASection } from './CTASection'

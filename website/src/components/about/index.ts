@@ -1,0 +1,6 @@
+export { AboutCompany } from './AboutCompany'
+export { AboutFounder } from './AboutFounder'
+export { AboutMethod } from './AboutMethod'
+export { AboutHowWeOperate } from './AboutHowWeOperate'
+export { AboutQuestions } from './AboutQuestions'
+export { AboutCTA } from './AboutCTA'

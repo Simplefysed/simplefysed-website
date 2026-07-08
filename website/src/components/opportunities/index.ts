@@ -1,1 +1,0 @@
-export { OpportunitiesSection } from './OpportunitiesSection'

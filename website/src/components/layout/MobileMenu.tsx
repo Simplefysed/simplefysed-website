@@ -13,10 +13,10 @@ export function MobileMenu() {
   const pathname = usePathname()
 
   return (
-    <div className="md:hidden">
+    <div className="lg:hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 text-text-primary hover:text-neon-cyan transition-colors"
+        className="p-2 text-ink hover:text-rust transition-colors"
         aria-label={isOpen ? 'Close menu' : 'Open menu'}
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -29,7 +29,7 @@ export function MobileMenu() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-bg-primary/80 backdrop-blur-sm z-40"
+              className="fixed inset-0 bg-ink/30 backdrop-blur-sm z-40"
               onClick={() => setIsOpen(false)}
             />
             <motion.div
@@ -37,12 +37,12 @@ export function MobileMenu() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 bottom-0 w-72 bg-bg-secondary border-l border-bg-tertiary z-50 p-6"
+              className="fixed top-0 right-0 bottom-0 w-72 bg-paper border-l border-ink/10 z-50 p-6"
             >
               <div className="flex justify-end mb-8">
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-2 text-text-primary hover:text-neon-cyan transition-colors"
+                  className="p-2 text-ink hover:text-rust transition-colors"
                   aria-label="Close menu"
                 >
                   <X size={24} />
@@ -65,12 +65,29 @@ export function MobileMenu() {
                         className={cn(
                           'block py-3 px-4 rounded-lg text-lg font-medium transition-all duration-300',
                           isActive
-                            ? 'bg-neon-cyan/10 text-neon-cyan'
-                            : 'text-text-secondary hover:text-text-primary hover:bg-bg-tertiary'
+                            ? 'bg-rust/10 text-ink'
+                            : 'text-ink-muted hover:text-ink hover:bg-ink/5'
                         )}
                       >
                         {item.label}
                       </Link>
+                      {item.children && (
+                        <div className="ml-6 mt-1 border-l border-ink/10">
+                          {item.children.map((child) => (
+                            <Link
+                              key={child.href}
+                              href={child.href}
+                              onClick={() => setIsOpen(false)}
+                              className="flex items-baseline gap-3 py-2.5 pl-4 pr-2 text-[15px] text-ink-muted transition-colors hover:text-ink"
+                            >
+                              <span className="font-mono text-[10px] text-ink-muted">
+                                {child.index}
+                              </span>
+                              {child.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
                     </motion.div>
                   )
                 })}
