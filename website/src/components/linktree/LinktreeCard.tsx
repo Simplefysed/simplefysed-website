@@ -51,6 +51,27 @@ const socials = [
 
 const langLabels: Record<string, string> = { de: 'German' }
 
+// Rendered twice: centered under the link stack below lg, and in the
+// identity rail on the desktop spread. One source so the two never drift.
+function SocialIcons() {
+  return (
+    <>
+      {socials.map((social) => (
+        <a
+          key={social.label}
+          href={social.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={social.label}
+          className="p-1 text-ink-muted transition-colors hover:text-rust"
+        >
+          <social.icon size={20} />
+        </a>
+      ))}
+    </>
+  )
+}
+
 function LinkRow({ item }: { item: LinkItem }) {
   const className = cn(
     'group flex min-h-14 w-full items-center justify-between gap-4 rounded-none border px-5 py-4 transition-colors',
@@ -123,93 +144,99 @@ export function LinktreeCard() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="mx-auto flex min-h-dvh w-full max-w-[26rem] flex-col px-6 py-12 sm:border-x sm:border-ink/10 sm:px-8 sm:py-16"
+        className="mx-auto flex min-h-dvh w-full max-w-[26rem] flex-col px-6 py-12 sm:border-x sm:border-ink/10 sm:px-8 sm:py-16 lg:max-w-[64rem] lg:px-14"
       >
-        {/* Plate */}
-        <motion.div variants={itemVariants} className="flex justify-center">
-          <div className="relative">
-            <span aria-hidden="true" className="absolute -left-1.5 -top-1.5 h-2.5 w-2.5 border-l border-t border-ink/40" />
-            <span aria-hidden="true" className="absolute -right-1.5 -top-1.5 h-2.5 w-2.5 border-r border-t border-ink/40" />
-            <span aria-hidden="true" className="absolute -bottom-1.5 -left-1.5 h-2.5 w-2.5 border-b border-l border-ink/40" />
-            <span aria-hidden="true" className="absolute -bottom-1.5 -right-1.5 h-2.5 w-2.5 border-b border-r border-ink/40" />
-            <div className="aspect-[4/5] w-36 border border-ink/15 bg-paper-card p-1">
-              {/* Portrait plate. grayscale + multiply keeps the photo on the
-                  Paper & Ink palette; object-cover fills the 4:5 frame. */}
-              <div className="relative h-full w-full overflow-hidden border border-ink/10">
-                <Image
-                  src="/founder-vin-mangelsdorf.jpg"
-                  alt="Vin Mangelsdorf"
-                  fill
-                  sizes="144px"
-                  className="object-cover grayscale mix-blend-multiply"
-                />
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Identity */}
-        <motion.h1
-          variants={itemVariants}
-          className="mt-6 text-center font-serif text-3xl font-medium leading-tight tracking-[-0.01em] text-ink"
-        >
-          Vin Mangelsdorf
-        </motion.h1>
-        <motion.p
-          variants={itemVariants}
-          className="mt-2.5 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted"
-        >
-          Founder, Simplefysed Solutions
-        </motion.p>
-        <motion.p
-          variants={itemVariants}
-          className="mx-auto mt-4 max-w-[19rem] text-center text-[15px] leading-relaxed text-ink-muted"
-        >
-          I build the systems that let companies run on less.
-        </motion.p>
-
-        <motion.span
-          variants={itemVariants}
-          aria-hidden="true"
-          className="mx-auto mt-8 h-px w-10 bg-ink/20"
-        />
-
-        {/* Link stack */}
-        <motion.nav
-          variants={itemVariants}
-          aria-label="Vin Mangelsdorf's links"
-          className="mt-8 flex flex-col gap-3"
-        >
-          {linktreeLinks.map((item, i) => {
-            const showGroup = item.group && item.group !== linktreeLinks[i - 1]?.group
-            return (
-              <Fragment key={item.href}>
-                {showGroup && (
-                  <div className="pt-3 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted">
-                    {item.group}
+        {/* Below lg this wrapper pair is layout-neutral (the same stacked
+            column as before). At lg it becomes a two-column spread, identity
+            plate left and link index right, vertically centered on the sheet. */}
+        <div className="flex flex-col lg:grid lg:flex-1 lg:grid-cols-12 lg:content-center lg:items-center lg:gap-x-16">
+          {/* Identity rail */}
+          <div className="flex flex-col lg:col-span-5">
+            {/* Plate */}
+            <motion.div variants={itemVariants} className="flex justify-center lg:justify-start">
+              <div className="relative">
+                <span aria-hidden="true" className="absolute -left-1.5 -top-1.5 h-2.5 w-2.5 border-l border-t border-ink/40" />
+                <span aria-hidden="true" className="absolute -right-1.5 -top-1.5 h-2.5 w-2.5 border-r border-t border-ink/40" />
+                <span aria-hidden="true" className="absolute -bottom-1.5 -left-1.5 h-2.5 w-2.5 border-b border-l border-ink/40" />
+                <span aria-hidden="true" className="absolute -bottom-1.5 -right-1.5 h-2.5 w-2.5 border-b border-r border-ink/40" />
+                <div className="aspect-[4/5] w-36 border border-ink/15 bg-paper-card p-1 lg:w-44">
+                  {/* Portrait plate. grayscale + multiply keeps the photo on the
+                      Paper & Ink palette; object-cover fills the 4:5 frame. */}
+                  <div className="relative h-full w-full overflow-hidden border border-ink/10">
+                    <Image
+                      src="/founder-vin-mangelsdorf.jpg"
+                      alt="Vin Mangelsdorf"
+                      fill
+                      priority
+                      sizes="(min-width: 1024px) 176px, 144px"
+                      className="object-cover grayscale mix-blend-multiply"
+                    />
                   </div>
-                )}
-                <LinkRow item={item} />
-              </Fragment>
-            )
-          })}
-        </motion.nav>
+                </div>
+              </div>
+            </motion.div>
 
-        {/* Socials */}
-        <motion.div variants={itemVariants} className="mt-10 flex justify-center gap-6">
-          {socials.map((social) => (
-            <a
-              key={social.label}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={social.label}
-              className="p-1 text-ink-muted transition-colors hover:text-rust"
+            {/* Identity */}
+            <motion.h1
+              variants={itemVariants}
+              className="mt-6 text-center font-serif text-3xl font-medium leading-tight tracking-[-0.01em] text-ink lg:mt-8 lg:text-left lg:text-4xl"
             >
-              <social.icon size={20} />
-            </a>
-          ))}
-        </motion.div>
+              Vin Mangelsdorf
+            </motion.h1>
+            <motion.p
+              variants={itemVariants}
+              className="mt-2.5 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted lg:text-left"
+            >
+              Founder, Simplefysed Solutions
+            </motion.p>
+            <motion.p
+              variants={itemVariants}
+              className="mx-auto mt-4 max-w-[19rem] text-center text-[15px] leading-relaxed text-ink-muted lg:mx-0 lg:text-left"
+            >
+              I build the systems that let companies run on less.
+            </motion.p>
+
+            <motion.span
+              variants={itemVariants}
+              aria-hidden="true"
+              className="mx-auto mt-8 h-px w-10 bg-ink/20 lg:mx-0"
+            />
+
+            {/* Socials, desktop position: part of the identity rail */}
+            <motion.div variants={itemVariants} className="mt-8 hidden gap-6 lg:flex">
+              <SocialIcons />
+            </motion.div>
+          </div>
+
+          {/* Link index */}
+          <div className="flex flex-col lg:col-span-7">
+            {/* Link stack */}
+            <motion.nav
+              variants={itemVariants}
+              aria-label="Vin Mangelsdorf's links"
+              className="mt-8 flex flex-col gap-3 lg:mt-0"
+            >
+              {linktreeLinks.map((item, i) => {
+                const showGroup = item.group && item.group !== linktreeLinks[i - 1]?.group
+                return (
+                  <Fragment key={item.href}>
+                    {showGroup && (
+                      <div className="pt-3 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted">
+                        {item.group}
+                      </div>
+                    )}
+                    <LinkRow item={item} />
+                  </Fragment>
+                )
+              })}
+            </motion.nav>
+
+            {/* Socials, stacked position below lg */}
+            <motion.div variants={itemVariants} className="mt-10 flex justify-center gap-6 lg:hidden">
+              <SocialIcons />
+            </motion.div>
+          </div>
+        </div>
 
         {/* Colophon */}
         <motion.p
